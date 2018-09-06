@@ -16,6 +16,7 @@ class Game {
 
         this._wall = document.getElementById("wall");
         this._brokenWall = document.getElementById("broken_wall");
+        this._bomb = document.getElementById("bomb");
     }
 
     update() {

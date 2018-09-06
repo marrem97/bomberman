@@ -20,15 +20,11 @@ window.loadImg = (src, id) => {
 window.onload = () => {
 	Promise.all([
 		loadImg("./images/wall.png", "wall"),
-		loadImg("./images/broken-wall.png", "broken_wall")
+		loadImg("./images/broken-wall.png", "broken_wall"),
+		loadImg("./images/bomb.png", "bomb")
 	]).then(() => {
 		window.game = new Game(800, 600, 50);
 
 		window.game.interval = setInterval(() => window.game.update(), 20);
 	});
-	// loadImg("./images/wall.png", "wall").then(() => {
-	// 	window.game = new Game(800, 600, 50);
-	//
-	// 	window.game.interval = setInterval(() => window.game.update(), 20);
-	// });
 };
