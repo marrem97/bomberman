@@ -1,0 +1,9 @@
+class Canvas {
+    constructor() {
+
+    }
+
+    draw() {
+
+    }
+}
