@@ -5,14 +5,16 @@ class Game {
         this.canvas = new Canvas(res);
         this.grid = this.createGrid(res);
 
+        this.bombs = [];
+
         this.initEventListener();
 
         let oStart1;
         this.grid.find(e => oStart1 = e.find(el => el.state === 0 && Math.random() > 0.8));
         let oStart2;
         this.grid.find(e => oStart2 =  e.find(el => (el.x !== oStart1.x || el.y !== oStart1.y) && el.state === 0));
-        this.player1 = new Player(oStart1.x, oStart1.y, "blue");
-        this.player2 = new Player(oStart2.x, oStart2.y, "red");
+        this.player1 = new Player(oStart1.x, oStart1.y, "blue", 1);
+        this.player2 = new Player(oStart2.x, oStart2.y, "red", 2);
 
         this._wall = document.getElementById("wall");
         this._brokenWall = document.getElementById("broken_wall");
@@ -21,6 +23,17 @@ class Game {
 
     update() {
         this.draw();
+
+        this.bombs.map(e => {
+            if (e.time === 0 && !e.exploded) {
+                e.exploded = true;
+                e.time = 5;
+            } else {
+                e.time--;
+            }
+        });
+
+        this.bombs = this.bombs.filter(e => e.time !== 0 || !e.exploded);
     }
 
     draw() {
@@ -35,6 +48,8 @@ class Game {
         // ------- players ------------------------------------------
         this.canvas.drawPlayer(this.player1);
         this.canvas.drawPlayer(this.player2);
+        // ------- bombs --------------------------------------------
+        this.bombs.forEach(e => this.canvas.drawBomb(e));
     }
 
     createGrid(res) {
@@ -78,6 +93,11 @@ class Game {
                 case 83: // down
                     this.player1.move(0,1);
                     break;
+            }
+            if (e.code === "ShiftLeft") {
+                this.player1.placeBomb();
+            } else if (e.code === "ShiftRight") {
+                this.player2.placeBomb();
             }
         })
     }

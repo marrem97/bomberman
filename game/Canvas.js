@@ -35,9 +35,35 @@ class Canvas {
         const ctx = this.getCtx();
         ctx.beginPath();
         ctx.fillStyle = o.color;
-        // ctx.fillRect(o.x * this.res, o.y * this.res, this.res, this.res);
         ctx.arc(o.x*this.res+this.res/2,o.y*this.res+this.res/2,this.res/2,0,2*Math.PI);
         ctx.fill();
-        ctx.fillStyle = "white";
+    }
+
+    drawBomb(o) {
+        const x = o.x;
+        const y = o.y;
+        const get = i => i * this.res;
+        const ctx = this.getCtx();
+
+        if (o.exploded) {
+            ctx.fillStyle = "red";
+            ctx.fillRect(get(x), get(y), this.res, this.res);
+
+            if (game.grid[x+1][y].state === 0) {
+                ctx.fillRect(get(x+1), get(y), this.res, this.res);
+            }
+            if (game.grid[x-1][y].state === 0) {
+                ctx.fillRect(get(x-1), get(y), this.res, this.res);
+            }
+            if (game.grid[x][y+1].state === 0) {
+                ctx.fillRect(get(x), get(y+1), this.res, this.res);
+            }
+            if (game.grid[x][y-1].state === 0) {
+                ctx.fillRect(get(x), get(y-1), this.res, this.res);
+            }
+
+        } else {
+            ctx.drawImage(game._bomb, get(x), get(y), this.res, this.res);
+        }
     }
 }
