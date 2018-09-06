@@ -9,13 +9,22 @@ class Canvas {
 
     drawCell(o) {
         const ctx = this.getCtx();
-        ctx.fillStyle = o.wall ? "black" : "gray";
-        ctx.fillRect(o.x*this.res,o.y*this.res,this.res,this.res);
+        const x = o.x * this.res;
+        const y = o.y * this.res;
+
+        if (o.wall) {
+			ctx.drawImage(game._wall, x, y, this.res, this.res);
+        } else {
+			ctx.fillStyle = "gray";
+			ctx.fillRect(x, y, this.res, this.res);
+			// ctx.drawImage(game._brokenWall, x, y, this.res, this.res);
+        }
+
         ctx.strokeStyle = "white";
-        ctx.strokeRect(o.x*this.res,o.y*this.res,this.res,this.res);
+        ctx.strokeRect(x, y, this.res, this.res);
 
         ctx.fillStyle = "white";
-        ctx.fillText(o.x+" "+o.y,o.x*this.res+this.res/2,o.y*this.res+this.res/2);
+        ctx.fillText(o.x + " " + o.y, o.x * this.res + this.res/2, o.y * this.res + this.res/2);
     }
 
     drawPlayer() {
