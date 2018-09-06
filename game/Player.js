@@ -7,6 +7,12 @@ class Player {
         this.id = id;
     }
 
+    update() {
+        if (game.grid[this.x][this.y].state === 3) {
+            this.dead = true;
+        }
+    }
+
     move(x, y) {
         let oTarget;
 
@@ -28,7 +34,7 @@ class Player {
 
     placeBomb() {
         if (game.bombs.filter(e => e.id === this.id).length < 3 && game.bombs.filter(e => e.x === this.x && e.y === this.y).length === 0) {
-            game.bombs.push({x: this.x, y: this.y, time: 50, exploded: false, id: this.id});
+            game.bombs.push(new Bomb(this.x, this.y, this.id));
         }
     }
 

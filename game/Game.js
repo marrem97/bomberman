@@ -4,6 +4,7 @@ class Game {
         this.h = h;
         this.canvas = new Canvas(res);
         this.grid = this.createGrid(res);
+        this.bombCounter = 0;
 
         this.bombs = [];
 
@@ -26,14 +27,18 @@ class Game {
 
         this.bombs.map(e => {
             if (e.time === 0 && !e.exploded) {
-                e.exploded = true;
-                e.time = 5;
+                e.explode();
             } else {
                 e.time--;
             }
         });
 
+        this.deadBombs = this.bombs.filter(e => e.time === 0 && e.exploded);
+        this.deadBombs.forEach(e => e.remove());
         this.bombs = this.bombs.filter(e => e.time !== 0 || !e.exploded);
+
+        this.player1.update();
+        this.player2.update();
     }
 
     draw() {
@@ -45,11 +50,11 @@ class Game {
                 this.canvas.drawCell(oCell);
             }
         }
+        // ------- bombs --------------------------------------------
+        this.bombs.forEach(e => this.canvas.drawBomb(e));
         // ------- players ------------------------------------------
         this.canvas.drawPlayer(this.player1);
         this.canvas.drawPlayer(this.player2);
-        // ------- bombs --------------------------------------------
-        this.bombs.forEach(e => this.canvas.drawBomb(e));
     }
 
     createGrid(res) {

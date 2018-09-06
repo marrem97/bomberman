@@ -23,7 +23,7 @@ window.onload = () => {
 		loadImg("./images/broken-wall.png", "broken_wall"),
 		loadImg("./images/bomb.png", "bomb")
 	]).then(() => {
-		window.game = new Game(800, 600, 50);
+		window.game = new Game(650, 650, 50);
 
 		window.game.interval = setInterval(() => window.game.update(), 20);
 	});

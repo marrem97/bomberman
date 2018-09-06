@@ -22,6 +22,10 @@ class Canvas {
                 break;
             case 2:
                 ctx.drawImage(game._brokenWall, x, y, this.res, this.res);
+                break;
+            case 3:
+                ctx.fillStyle = "rgba(255,0,0,0.8)";
+                ctx.fillRect(x, y, this.res, this.res);
         }
 
         // ctx.strokeStyle = "white";
@@ -32,38 +36,22 @@ class Canvas {
     }
 
     drawPlayer(o) {
-        const ctx = this.getCtx();
-        ctx.beginPath();
-        ctx.fillStyle = o.color;
-        ctx.arc(o.x*this.res+this.res/2,o.y*this.res+this.res/2,this.res/2,0,2*Math.PI);
-        ctx.fill();
+        if (!o.dead) {
+            const ctx = this.getCtx();
+            ctx.beginPath();
+            ctx.fillStyle = o.color;
+            ctx.arc(o.x * this.res + this.res / 2, o.y * this.res + this.res / 2, this.res / 2, 0, 2 * Math.PI);
+            ctx.fill();
+        }
     }
 
     drawBomb(o) {
-        const x = o.x;
-        const y = o.y;
-        const get = i => i * this.res;
+        const x = o.x * this.res;
+        const y = o.y * this.res;
         const ctx = this.getCtx();
 
-        if (o.exploded) {
-            ctx.fillStyle = "red";
-            ctx.fillRect(get(x), get(y), this.res, this.res);
-
-            if (game.grid[x+1][y].state === 0) {
-                ctx.fillRect(get(x+1), get(y), this.res, this.res);
-            }
-            if (game.grid[x-1][y].state === 0) {
-                ctx.fillRect(get(x-1), get(y), this.res, this.res);
-            }
-            if (game.grid[x][y+1].state === 0) {
-                ctx.fillRect(get(x), get(y+1), this.res, this.res);
-            }
-            if (game.grid[x][y-1].state === 0) {
-                ctx.fillRect(get(x), get(y-1), this.res, this.res);
-            }
-
-        } else {
-            ctx.drawImage(game._bomb, get(x), get(y), this.res, this.res);
+        if (!o.exploded) {
+            ctx.drawImage(game._bomb, x, y, this.res, this.res);
         }
     }
 }
