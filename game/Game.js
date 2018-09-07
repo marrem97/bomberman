@@ -15,7 +15,9 @@ class Game {
         this._bomb = document.getElementById("bomb");
         this._powerup_range = document.getElementById("powerup_range");
         this._powerup_bomb = document.getElementById("powerup_bomb");
+        this._powerup_speed = document.getElementById("powerup_speed");
         this._powerup_shield = document.getElementById("powerup_shield");
+        this._powerup_kicker = document.getElementById("powerup_kicker");
         this._mew = document.getElementById("mew");
         this._snorlax = document.getElementById("snorlax");
 
@@ -30,7 +32,9 @@ class Game {
     update() {
         this.draw();
 
-        this.bombs.map(e => {
+        this.controls();
+
+        this.bombs.forEach(e => {
             if (e.time === 0 && !e.exploded) {
                 e.explode();
             } else {
@@ -62,6 +66,19 @@ class Game {
         this.canvas.drawPlayer(this.player2);
     }
 
+    controls() {
+        if (keyState.ArrowLeft) this.player2.move(-1,0);
+        if (keyState.ArrowRight) this.player2.move(1,0);
+        if (keyState.ArrowUp) this.player2.move(0,-1);
+        if (keyState.ArrowDown) this.player2.move(0,1);
+        if (keyState.A) this.player1.move(-1,0);
+        if (keyState.D) this.player1.move(1,0);
+        if (keyState.W) this.player1.move(0,-1);
+        if (keyState.S) this.player1.move(0,1);
+        if (keyState.ShiftLeft) this.player1.placeBomb();
+        if (keyState.Space) this.player2.placeBomb();
+    }
+
     createGrid(res) {
         const grid = [];
         const width = this.w / res;
@@ -77,38 +94,12 @@ class Game {
     }
 
     initEventListener() {
-        window.addEventListener("keydown", e => {
-            switch (e.keyCode) {
-                case 37: // left
-                    this.player2.move(-1,0);
-                    break;
-                case 38: // up
-                    this.player2.move(0,-1);
-                    break;
-                case 39: // right
-                    this.player2.move(1,0);
-                    break;
-                case 40: // down
-                    this.player2.move(0,1);
-                    break;
-                case 65: // left
-                    this.player1.move(-1,0);
-                    break;
-                case 87: // up
-                    this.player1.move(0,-1);
-                    break;
-                case 68: // right
-                    this.player1.move(1,0);
-                    break;
-                case 83: // down
-                    this.player1.move(0,1);
-                    break;
-            }
-            if (e.code === "ShiftLeft") {
-                this.player1.placeBomb();
-            } else if (e.code === "Space") {
-                this.player2.placeBomb();
-            }
-        })
+        window.keyState = {};
+        window.addEventListener('keydown',function(e){
+            keyState[e.code] = true;
+        },true);
+        window.addEventListener('keyup',function(e){
+            keyState[e.code] = false;
+        },true);
     }
 }

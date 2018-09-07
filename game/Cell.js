@@ -3,6 +3,7 @@ class Cell {
         this.x = x;
         this.y = y;
         this.state = this.getState(width, height);
+        this.age = 0;
     }
 
     getState(w, h) {

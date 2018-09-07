@@ -25,6 +25,8 @@ window.onload = () => {
 		loadImg("./images/powerup_range.png", "powerup_range"),
 		loadImg("./images/powerup_bomb.png", "powerup_bomb"),
 		loadImg("./images/powerup_shield.png", "powerup_shield"),
+		loadImg("./images/powerup_speed.png", "powerup_speed"),
+		loadImg("./images/powerup_kicker.png", "powerup_kicker"),
 		loadImg("./images/mew.png", "mew"),
 		loadImg("./images/snorlax.png", "snorlax"),
 	]).then(() => {

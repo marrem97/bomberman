@@ -8,6 +8,9 @@ class Player {
         this.bombs = 1;
         this.range = 1;
         this.shield = false;
+        this.kicker = false;
+
+        this.speed = 8;
     }
 
     update() {
@@ -25,6 +28,12 @@ class Player {
             return;
         }
 
+        if (this.moving) {
+            return;
+        }
+
+        this.moving = true;
+
         let oTarget;
 
         if (x === 1) {
@@ -38,6 +47,15 @@ class Player {
         }
 
         if (!this.getCollision(oTarget)) {
+            if (this.getCollisionWithBomb(oTarget)) {
+                if (this.kicker) {
+                    game.bombs.find(e => e.x === oTarget.x && e.y === oTarget.y).kick(x, y);
+                } else {
+                    setTimeout(() => this.moving = false, 1000 / this.speed);
+                    return;
+                }
+            }
+
             this.x += x;
             this.y += y;
 
@@ -50,12 +68,17 @@ class Player {
             if (powerup) {
                 this.range += powerup.range;
                 this.bombs += powerup.bombs;
+                this.speed += powerup.speed;
                 if (powerup.shield) {
                     this.shield = true;
+                } else if (powerup.kicker) {
+                    this.kicker = true;
                 }
                 game.grid[this.x][this.y].powerup = undefined;
             }
         }
+
+        setTimeout(() => this.moving = false, 1000 / this.speed);
     }
 
     placeBomb() {
@@ -73,6 +96,10 @@ class Player {
 
     getCollision(o) {
         return o.state === 1 || o.state === 2;
+    }
+
+    getCollisionWithBomb(o) {
+        return !!game.bombs.find(e => e.x === o.x && e.y === o.y);
     }
 
     getPlacedBombs() {

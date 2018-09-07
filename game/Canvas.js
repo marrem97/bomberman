@@ -14,7 +14,7 @@ class Canvas {
 
         switch (o.state) {
             case 0:
-                ctx.fillStyle = "#86acb4";
+                ctx.fillStyle = "#81a3b4";
                 ctx.fillRect(x, y, this.res, this.res);
                 if (o.powerup) {
                     ctx.drawImage(o.powerup.image, x+this.res/6, y+this.res/6, this.res-this.res/3, this.res-this.res/3);
@@ -29,10 +29,11 @@ class Canvas {
             case 3:
                 ctx.fillStyle = "rgba(255,0,0,0.8)";
                 ctx.fillRect(x, y, this.res, this.res);
+                o.age++;
+                if (o.age > 15) {
+                    o.state = 0;
+                }
         }
-
-        // ctx.strokeStyle = "white";
-        // ctx.strokeRect(o.x * this.res, o.y * this.res, this.res, this.res);
 
         // ctx.fillStyle = "white";
         // ctx.fillText(o.x + " " + o.y, o.x * this.res + this.res / 2, o.y * this.res + this.res / 2);
@@ -56,7 +57,15 @@ class Canvas {
         const ctx = this.getCtx();
 
         if (!o.exploded) {
-            ctx.drawImage(game._bomb, x+this.res/20, y+this.res/20, this.res-this.res/10, this.res-this.res/10);
+            if (!o.animation) o.animation = 0;
+            o.animation = o.animation > 10 ? -10 : o.animation + 1;
+            let offset = 0;
+            if (o.animation < 0) {
+                offset = this.res/20;
+            } else {
+                offset = this.res/10;
+            }
+            ctx.drawImage(game._bomb, x+offset, y+offset, this.res-offset*2, this.res-offset*2);
         }
     }
 }

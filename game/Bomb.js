@@ -5,7 +5,7 @@ class Bomb {
         this.x = x;
         this.y = y;
         this.exploded = false;
-        this.time = 50;
+        this.time = 70;
         this.count = game.bombCounter++;
     }
 
@@ -21,7 +21,7 @@ class Bomb {
                     if (e.powerup) {
                         e.powerup = undefined;
                     }
-                }, d*25);
+                }, d*15);
             } else if (e.state === 2) {
                 e.state = 0;
                 if (Math.random() > 0.4) {
@@ -70,5 +70,22 @@ class Bomb {
                 return game.grid[x][y];
             }
         }
+    }
+
+    kick(x, y) {
+        function getCollision(o) {
+            return o.state === 1 || o.state === 2 || !!game.bombs.find(e => e.x === o.x && e.y === o.y);
+        }
+
+        const i = setInterval(() => {
+            const nextCell = game.grid[this.x+x][this.y+y];
+            if (getCollision(nextCell)) {
+                clearInterval(i);
+            } else {
+                this.x += x;
+                this.y += y;
+            }
+        }, 70);
+
     }
 }
