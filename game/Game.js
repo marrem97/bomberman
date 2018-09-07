@@ -18,6 +18,7 @@ class Game {
         this._powerup_speed = document.getElementById("powerup_speed");
         this._powerup_shield = document.getElementById("powerup_shield");
         this._powerup_kicker = document.getElementById("powerup_kicker");
+        this._explosion = document.getElementById("explosion");
         this._mew = document.getElementById("mew");
         this._snorlax = document.getElementById("snorlax");
 

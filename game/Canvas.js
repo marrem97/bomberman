@@ -27,8 +27,9 @@ class Canvas {
                 ctx.drawImage(game._brokenWall, x, y, this.res, this.res);
                 break;
             case 3:
-                ctx.fillStyle = "rgba(255,0,0,0.8)";
-                ctx.fillRect(x, y, this.res, this.res);
+                ctx.drawImage(game._explosion, x, y, this.res, this.res);
+                // ctx.fillStyle = "rgba(255,0,0,0.8)";
+                // ctx.fillRect(x, y, this.res, this.res);
                 o.age++;
                 if (o.age > 15) {
                     o.state = 0;
