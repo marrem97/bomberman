@@ -10,16 +10,21 @@ class Game {
 
         this.initEventListener();
 
+        this._wall = document.getElementById("wall");
+        this._brokenWall = document.getElementById("broken_wall");
+        this._bomb = document.getElementById("bomb");
+        this._powerup_range = document.getElementById("powerup_range");
+        this._powerup_bomb = document.getElementById("powerup_bomb");
+        this._powerup_shield = document.getElementById("powerup_shield");
+        this._mew = document.getElementById("mew");
+        this._snorlax = document.getElementById("snorlax");
+
         let oStart1;
         this.grid.find(e => oStart1 = e.find(el => el.state === 0 && Math.random() > 0.8));
         let oStart2;
         this.grid.find(e => oStart2 =  e.find(el => (el.x !== oStart1.x || el.y !== oStart1.y) && el.state === 0));
-        this.player1 = new Player(oStart1.x, oStart1.y, "blue", 1);
-        this.player2 = new Player(oStart2.x, oStart2.y, "red", 2);
-
-        this._wall = document.getElementById("wall");
-        this._brokenWall = document.getElementById("broken_wall");
-        this._bomb = document.getElementById("bomb");
+        this.player1 = new Player(oStart1.x, oStart1.y, this._mew, 1);
+        this.player2 = new Player(oStart2.x, oStart2.y, this._snorlax, 2);
     }
 
     update() {
@@ -101,7 +106,7 @@ class Game {
             }
             if (e.code === "ShiftLeft") {
                 this.player1.placeBomb();
-            } else if (e.code === "ShiftRight") {
+            } else if (e.code === "Space") {
                 this.player2.placeBomb();
             }
         })

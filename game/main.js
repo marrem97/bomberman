@@ -19,9 +19,14 @@ window.loadImg = (src, id) => {
 
 window.onload = () => {
 	Promise.all([
-		loadImg("./images/wall.png", "wall"),
-		loadImg("./images/broken-wall.png", "broken_wall"),
-		loadImg("./images/bomb.png", "bomb")
+		loadImg("./images/brickwall.png", "wall"),
+		loadImg("./images/brickwall_2.png", "broken_wall"),
+		loadImg("./images/bomb.png", "bomb"),
+		loadImg("./images/powerup_range.png", "powerup_range"),
+		loadImg("./images/powerup_bomb.png", "powerup_bomb"),
+		loadImg("./images/powerup_shield.png", "powerup_shield"),
+		loadImg("./images/mew.png", "mew"),
+		loadImg("./images/snorlax.png", "snorlax"),
 	]).then(() => {
 		window.game = new Game(650, 650, 50);
 

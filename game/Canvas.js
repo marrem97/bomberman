@@ -14,8 +14,11 @@ class Canvas {
 
         switch (o.state) {
             case 0:
-                ctx.fillStyle = "#b4b4b4";
+                ctx.fillStyle = "#86acb4";
                 ctx.fillRect(x, y, this.res, this.res);
+                if (o.powerup) {
+                    ctx.drawImage(o.powerup.image, x+this.res/6, y+this.res/6, this.res-this.res/3, this.res-this.res/3);
+                }
                 break;
             case 1:
                 ctx.drawImage(game._wall, x, y, this.res, this.res);
@@ -38,10 +41,12 @@ class Canvas {
     drawPlayer(o) {
         if (!o.dead) {
             const ctx = this.getCtx();
-            ctx.beginPath();
-            ctx.fillStyle = o.color;
-            ctx.arc(o.x * this.res + this.res / 2, o.y * this.res + this.res / 2, this.res / 2, 0, 2 * Math.PI);
-            ctx.fill();
+            const x = o.x * this.res;
+            const y = o.y * this.res;
+            ctx.drawImage(o.image, x, y, this.res, this.res);
+            if (o.shield && !o.shieldUsed) {
+                ctx.drawImage(game._powerup_shield, x+this.res/1.5, y, this.res/2, this.res/2);
+            }
         }
     }
 
@@ -51,7 +56,7 @@ class Canvas {
         const ctx = this.getCtx();
 
         if (!o.exploded) {
-            ctx.drawImage(game._bomb, x, y, this.res, this.res);
+            ctx.drawImage(game._bomb, x+this.res/20, y+this.res/20, this.res-this.res/10, this.res-this.res/10);
         }
     }
 }

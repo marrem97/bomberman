@@ -1,6 +1,6 @@
 class Bomb {
     constructor(x,y,id,range) {
-        this.range = 2;
+        this.range = range;
         this.id = id;
         this.x = x;
         this.y = y;
@@ -18,9 +18,15 @@ class Bomb {
                 const d = Math.sqrt(Math.pow((e.x-this.x),2)+Math.pow((e.y-this.y),2));
                 setTimeout(() => {
                     e.state = 3;
+                    if (e.powerup) {
+                        e.powerup = undefined;
+                    }
                 }, d*25);
             } else if (e.state === 2) {
                 e.state = 0;
+                if (Math.random() > 0.4) {
+                    e.powerup = new PowerUp();
+                }
             }
         });
     }

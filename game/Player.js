@@ -1,19 +1,30 @@
 class Player {
-    constructor(x, y, color, id) {
+    constructor(x, y, image, id) {
         this.x = x;
         this.y = y;
-        this.color = color;
+        this.image = image;
         this.dead = false;
         this.id = id;
+        this.bombs = 1;
+        this.range = 1;
+        this.shield = false;
     }
 
     update() {
         if (game.grid[this.x][this.y].state === 3) {
-            this.dead = true;
+            if (this.shield) {
+                this.shieldUsed = true;
+            } else {
+                this.dead = true;
+            }
         }
     }
 
     move(x, y) {
+        if (this.dead) {
+            return;
+        }
+
         let oTarget;
 
         if (x === 1) {
@@ -29,16 +40,42 @@ class Player {
         if (!this.getCollision(oTarget)) {
             this.x += x;
             this.y += y;
+
+            if (this.shieldUsed) {
+                this.shield = false;
+                this.shieldUsed = false;
+            }
+
+            const powerup = game.grid[this.x][this.y].powerup;
+            if (powerup) {
+                this.range += powerup.range;
+                this.bombs += powerup.bombs;
+                if (powerup.shield) {
+                    this.shield = true;
+                }
+                game.grid[this.x][this.y].powerup = undefined;
+            }
         }
     }
 
     placeBomb() {
-        if (game.bombs.filter(e => e.id === this.id).length < 3 && game.bombs.filter(e => e.x === this.x && e.y === this.y).length === 0) {
-            game.bombs.push(new Bomb(this.x, this.y, this.id));
+        if (this.dead) {
+            return;
+        }
+
+        if (this.getPlacedBombs() < this.bombs) {
+            if (game.bombs.filter(e => e.x === this.x && e.y === this.y).length === 0) {
+                const oBomb = new Bomb(this.x, this.y, this.id, this.range);
+                game.bombs.push(oBomb);
+            }
         }
     }
 
     getCollision(o) {
-        return o.state !== 0;
+        return o.state === 1 || o.state === 2;
+    }
+
+    getPlacedBombs() {
+        return game.bombs.filter(e => e.id === this.id).length;
     }
 }
