@@ -72,10 +72,10 @@ class Game {
         if (keyState.ArrowRight) this.player2.move(1,0);
         if (keyState.ArrowUp) this.player2.move(0,-1);
         if (keyState.ArrowDown) this.player2.move(0,1);
-        if (keyState.A) this.player1.move(-1,0);
-        if (keyState.D) this.player1.move(1,0);
-        if (keyState.W) this.player1.move(0,-1);
-        if (keyState.S) this.player1.move(0,1);
+        if (keyState.KeyA) this.player1.move(-1,0);
+        if (keyState.KeyD) this.player1.move(1,0);
+        if (keyState.KeyW) this.player1.move(0,-1);
+        if (keyState.KeyS) this.player1.move(0,1);
         if (keyState.ShiftLeft) this.player1.placeBomb();
         if (keyState.Space) this.player2.placeBomb();
     }
