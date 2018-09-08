@@ -14,6 +14,7 @@ class Canvas {
 
         switch (o.state) {
             case 0:
+                o.age = 0;
                 ctx.fillStyle = "#81a3b4";
                 ctx.fillRect(x, y, this.res, this.res);
                 if (o.powerup) {
